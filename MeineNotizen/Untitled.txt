@@ -1,0 +1,59 @@
+classDiagram
+    class MeineNotizenApp {
+        +ContentView()
+    }
+    class ContentView {
+        +Liste anzeigen()
+        +Navigation()
+    }
+    class NeuerEintragView {
+        +Eintrag hinzufügen()
+        +Kategorie auswählen()
+    }
+    class DetailView {
+        +Eintrag bearbeiten()
+        +Änderungen speichern()
+    }
+    class BottomFilterSheet {
+        +Filter anwenden()
+        +Sortierung ändern()
+    }
+    class FloatingNodeMenu {
+        +Menüoptionen anzeigen()
+        +Aktionen auslösen()
+    }
+    class MerklistenEintrag {
+        -id: UUID
+        -titel: String
+        -notiz: String
+        -erstelltAm: Date
+        -kategorie: Kategorie
+    }
+    class Kategorie {
+        <<enumeration>>
+        +privat
+        +arbeit
+        +einkauf
+        +idee
+        +sonstiges
+    }
+    class MerklistenViewModel {
+        +eintraege: [MerklistenEintrag]
+        +hinzufügen()
+        +löschen()
+        +sortieren()
+        +speichern()
+        +laden()
+    }
+
+    MeineNotizenApp --> ContentView : instanziert
+    ContentView --> NeuerEintragView : navigiert zu
+    ContentView --> DetailView : navigiert zu
+    ContentView --> BottomFilterSheet : ruft auf
+    ContentView --> FloatingNodeMenu : verwendet
+    ContentView --> MerklistenViewModel : bindet ein
+    NeuerEintragView --> MerklistenViewModel : ruft hinzufügen()
+    DetailView --> MerklistenViewModel : ruft speichern()
+    BottomFilterSheet --> MerklistenViewModel : aktualisiert Sortierung/Filter
+    MerklistenViewModel --> MerklistenEintrag : verwendet
+    MerklistenEintrag --> Kategorie : nutzt Kategorie
